@@ -140,5 +140,3 @@ if __name__ == "__main__":
         # kp = kills + assists
         allKills = allyKills(getAllyName()) + kills
         calcKP(kills, assists, allKills)
-
-    exit(0)
