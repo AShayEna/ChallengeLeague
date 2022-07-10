@@ -3,7 +3,7 @@
 
 ## Usage
 
-#### Make sure you have change the "username" with yours!
+#### Make sure you changed the "username" with yours!
 ```bash
 python IsHighParticipant.py
 ```
