@@ -103,7 +103,7 @@ def resultOutput(isOK, kp, percent, nowPlaying):
         print("\n ♥ All good! You're a king!! ♥ \n")
     else:
         clear_console()
-        playSong(flute, "flute")
+        playSong(flute, "flute", nowPlaying)
         nowPlaying = "flute"
         print("\n WTF BRO! STOP TROLLING\n")
     print("\nRatio: "+ str(kp) + "/" + str(allKills) + " ("+ str(percent) +")")
