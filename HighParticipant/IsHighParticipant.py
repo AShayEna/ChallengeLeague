@@ -1,12 +1,7 @@
-
-
-from calendar import c
 import os
 import json
-from turtle import update
 import pygame
 import requests
-import tkinter as tk
 
 from time import sleep
 from colorama import Fore
@@ -20,59 +15,6 @@ playerList = "https://127.0.0.1:2999/liveclientdata/playerlist"
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 nowPlaying = ""
-
-
-
-class Overlay:
-    """
-    Creates an overlay window using tkinter
-    Uses the "-topmost" property to always stay on top of other Windows
-    """
-    def __init__(self, initial_text: str):
-        self.initial_text = initial_text
-        self.root = tk.Tk()
-
-        # Set up Close Label
-        self.close_label = tk.Label(
-            self.root,
-            text=' X |',
-            font=('Consolas', '14'),
-            fg='green3',
-            bg='grey19'
-        )
-
-        # Set up Ping Label
-        self.ping_text = tk.StringVar()
-        self.ping_label = tk.Label(
-            self.root,
-            textvariable=self.ping_text,
-            font=('Consolas', '14'),
-            fg='green3',
-            bg='grey19'
-        )
-        self.ping_label.grid(row=0, column=1)
-
-        # Define Window Geometry
-        self.root.overrideredirect(True)
-        self.root.geometry("+5+5")
-        self.root.lift()
-        self.root.wm_attributes("-topmost", True)
-
-        self.root.after(1000, self.getData)
-
-    def getData(self):
-        kills, assists = getPlayerKP()
-        # kp = kills + assists
-        allKills = allyKills(getAllyName()) + kills
-        calcKP(kills, assists, allKills)
-        self.root.after(1000, self.getData)
-
-    def update_label(self, update_text) -> None:
-        self.ping_text.set(update_text)
-
-    def run(self) -> None:
-        self.ping_text.set(self.initial_text)
-        self.root.mainloop()
 
 def getPlayerKP():
     try:
@@ -182,8 +124,6 @@ def playSong(song, songName):
             flute.stop()
         song.play(-1)
 
-overlay = Overlay("NONE")
-
 if __name__ == "__main__":
     pygame.mixer.init()
 
@@ -194,5 +134,11 @@ if __name__ == "__main__":
     guerrier.set_volume(0.03)
     flute.set_volume(0.03)
     mii.set_volume(0.03)
-    overlay.run()
+
+    while True:
+        kills, assists = getPlayerKP()
+        # kp = kills + assists
+        allKills = allyKills(getAllyName()) + kills
+        calcKP(kills, assists, allKills)
+
     exit(0)
