@@ -12,6 +12,8 @@ Username = "AShayEna"
 activePlayerData = "https://127.0.0.1:2999/liveclientdata/playerscores?summonerName="
 playerList = "https://127.0.0.1:2999/liveclientdata/playerlist"
 
+musicPath = "music/"
+
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 def getPlayerKP():
@@ -126,9 +128,9 @@ def playSong(song, songName, nowPlaying):
 if __name__ == "__main__":
     pygame.mixer.init()
 
-    guerrier = pygame.mixer.Sound("guerrier.mp3")
-    flute = pygame.mixer.Sound("flute.mp3")
-    mii = pygame.mixer.Sound("mii.mp3")
+    guerrier = pygame.mixer.Sound(musicPath+"guerrier.mp3")
+    flute = pygame.mixer.Sound(musicPath+"flute.mp3")
+    mii = pygame.mixer.Sound(musicPath+"mii.mp3")
 
     guerrier.set_volume(0.03)
     flute.set_volume(0.03)
