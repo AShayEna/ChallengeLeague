@@ -23,11 +23,8 @@ def getPlayerKP():
     except:
         print("\n")
         print("Failed: getting player KP!\n Make sure you are on a game!")
-        exit(1)
-    kills, assists = parseKP(r)
-
-    kp = int(kills) + int(assists)
-    return parseKP(r)
+        return 0,0, False
+    return parseKP(r), True
 
 def parseKP(r):
     jsonPlayer = json.loads(r.text)
@@ -125,6 +122,16 @@ def playSong(song, songName, nowPlaying):
             flute.stop()
         song.play(-1)
 
+def endGameResult(isOK, kp, percent):
+    clear_console()
+    print("\nRatio: "+ str(kp) + "/" + str(allKills) + " ("+ str(percent) +")")
+
+    if isOK:
+        print("\nCongrats! A step was made to be an ARAM GOD!")
+    else:
+        print("\nToo bad... Next will be the good one!")
+
+
 if __name__ == "__main__":
     pygame.mixer.init()
 
@@ -137,11 +144,23 @@ if __name__ == "__main__":
     mii.set_volume(0.03)
 
     nowPlaying = ""
+    kp = 0
+    percent = 0
+    isOK = False
 
     while True:
-        kills, assists = getPlayerKP()
+        kills, assists, inGame = getPlayerKP()
+        if not inGame:
+            endGameResult(isOK, kp, percent)
+            break
         allKills = allyKills(getAllyName()) + kills
         isOK, kp, percent = calcKP(kills, assists, allKills)
         if isOK != None:
-            nowPlaying = resultOutput(isOK, kp, percent, nowPlaying)
+            nowPlaying = resultOutput(isOK, kp, percent, nowPlaying, inGame)
         sleep(5)
+
+    guerrier.stop()
+    flute.stop()
+    mii.stop()
+
+    exit(0)
