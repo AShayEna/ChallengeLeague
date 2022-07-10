@@ -14,8 +14,6 @@ playerList = "https://127.0.0.1:2999/liveclientdata/playerlist"
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-nowPlaying = ""
-
 def getPlayerKP():
     try:
         r =requests.get(activePlayerData + Username, verify=False)
@@ -45,7 +43,7 @@ def allyKills(AllyList):
             r =requests.get(activePlayerData + playerName , verify=False)
         except:
             print("\n")
-            print("Failed: getting player KP!\n Make sure you are on a game!")
+            print("Failed: getting player Ally!\n Make sure you are on a game!")
             exit(1)
 
         kills, assists = parseKP(r)
@@ -92,10 +90,10 @@ def calcKP(kills, assists, allKills):
         if nowPlaying !=  "mii":
             mii.play(-1)
         nowPlaying = "mii"
-        return None
+        return None, None, None
     mii.stop()
 
-    return isOK
+    return isOK, kp, percent
 
 def resultOutput(isOK, kp, percent, nowPlaying):
     if isOK:
@@ -142,5 +140,6 @@ if __name__ == "__main__":
         kills, assists = getPlayerKP()
         allKills = allyKills(getAllyName()) + kills
         isOK, kp, percent = calcKP(kills, assists, allKills)
-        nowPlaying = resultOutput(isOK, kp, percent, nowPlaying)
+        if isOK != None:
+            nowPlaying = resultOutput(isOK, kp, percent, nowPlaying)
         sleep(5)
