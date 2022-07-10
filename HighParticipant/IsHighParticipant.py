@@ -87,12 +87,14 @@ def calcKP(kills, assists, allKills):
         percent = (kp / allKills) * 100
         isOK = percent >= 90
     except ZeroDivisionError as e:
+        clear_console()
         print("\n No kills done. Rend les ancêtres fiers! \n")
         if nowPlaying !=  "mii":
             mii.play(-1)
         nowPlaying = "mii"
         return
     
+    mii.stop()
     if isOK:
         clear_console()
         playSong(guerrier, "guerrier")
@@ -103,7 +105,6 @@ def calcKP(kills, assists, allKills):
         playSong(flute, "flute")
         nowPlaying = "flute"
         print("\n WTF BRO! STOP TROLLING\n")
-    overlay.update_label(f"kp: {percent}%")
     print("\nRatio: "+ str(kp) + "/" + str(allKills) + " ("+ str(percent) +")")
 
 def clear_console():
@@ -140,3 +141,4 @@ if __name__ == "__main__":
         # kp = kills + assists
         allKills = allyKills(getAllyName()) + kills
         calcKP(kills, assists, allKills)
+        sleep(5)
