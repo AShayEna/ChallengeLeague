@@ -92,12 +92,15 @@ def calcKP(kills, assists, allKills):
         if nowPlaying !=  "mii":
             mii.play(-1)
         nowPlaying = "mii"
-        return
-    
+        return None
     mii.stop()
+
+    return isOK
+
+def resultOutput(isOK, kp, percent, nowPlaying):
     if isOK:
         clear_console()
-        playSong(guerrier, "guerrier")
+        playSong(guerrier, "guerrier", nowPlaying)
         nowPlaying = "guerrier"
         print("\n ♥ All good! You're a king!! ♥ \n")
     else:
@@ -106,15 +109,12 @@ def calcKP(kills, assists, allKills):
         nowPlaying = "flute"
         print("\n WTF BRO! STOP TROLLING\n")
     print("\nRatio: "+ str(kp) + "/" + str(allKills) + " ("+ str(percent) +")")
+    return nowPlaying
 
 def clear_console():
     os.system('cls')
 
-def playSong(song, songName):
-    # song = pygame.mixer.Sound(songName)
-    #song.set_volume(0.05)
-    global nowPlaying
-    print(nowPlaying)
+def playSong(song, songName, nowPlaying):
 
     if songName == nowPlaying:
         return
@@ -136,9 +136,11 @@ if __name__ == "__main__":
     flute.set_volume(0.03)
     mii.set_volume(0.03)
 
+    nowPlaying = ""
+
     while True:
         kills, assists = getPlayerKP()
-        # kp = kills + assists
         allKills = allyKills(getAllyName()) + kills
-        calcKP(kills, assists, allKills)
+        isOK, kp, percent = calcKP(kills, assists, allKills)
+        nowPlaying = resultOutput(isOK, kp, percent, nowPlaying)
         sleep(5)
